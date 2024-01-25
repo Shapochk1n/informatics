@@ -5,7 +5,7 @@ import random
 from random import randint
 import string
 
-print("2 задача")
+print("1 задача")
 def d1(s):
     n = 0
     m = 0
