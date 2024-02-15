@@ -1,10 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-
-from matplotlib import cbook
-from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
-from mpl_toolkits.axes_grid1.inset_locator import mark_inset, zoomed_inset_axes, inset_axes
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 """
 Для каждой задачи необходимо:
@@ -52,7 +49,7 @@ for i in range(len(const)):
 """
 
 def f_above_zero(x, a, b):
-    if (x**b + a**b) / x**b >= 0:
+    if x > 0:
         return (x**b + a**b) / x**b
 
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(10, 6))
@@ -105,7 +102,7 @@ plt.savefig(dir + '/chart4.svg')
 одинаковым для одних и тех же значений α и β.
 """
 def f_below_zero(x, a, b):
-    if (x**b + a**b) / x**b < 0:
+    if x < 0:
         return (x**b + a**b) / x**b
 
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(10, 6))
@@ -126,7 +123,7 @@ def graph(a, b, ax):
 
     # small x values
     axins1 = inset_axes(ax, width="20%", height="20%", 
-                        loc=2, borderpad=4)
+                        loc=2, borderpad=5)
     x = np.linspace(-0.1, 0, 100)
     y = [f_below_zero(x_, a, b) for x_ in x]
     axins1.plot(x, y, color='red', label='график')
@@ -134,9 +131,10 @@ def graph(a, b, ax):
 
     # big x values
     axins2 = inset_axes(ax, width="20%", height="20%", 
-                        loc=3, borderpad=4)
+                        loc=3, borderpad=5)
     x = np.linspace(-400, -300, 100)
     y = [f_below_zero(x_, a, b) for x_ in x]
+    print(x, y)
     axins2.plot(x, y, color='red', label='график')
     axins2.set_title('big x values')
 
@@ -236,8 +234,8 @@ def graph(a, b, ax):
     x = np.linspace(0, 5, 200)
     y = [f(x_, a, b) for x_ in x]
     # create graph
-    ax.plot(x, y, color='red', label='график функции')
-    ax.set_title(f'a={a}, b={b}')
+    ax.plot(x, y, color='red', label=f'a={a}, b={b}')
+    ax.set_title(f'графики функции')
     ax.axhline(y=0)
     ax.axvline(x=0)
     plt.ylabel('y')
@@ -248,5 +246,11 @@ def graph(a, b, ax):
 for i in range(len((ax1, ax2, ax3))):
     for j in range(len(const[0])):
         graph(const[i][j][0], const[i][j][1], (ax1, ax2, ax3)[i])
+
+    dot_x = np.linspace(1, 1, 1)
+    dot_y = [f(x_, const[0][0][0], const[0][0][1]) for x_ in dot_x]
+    (ax1, ax2, ax3)[i].scatter(dot_x, dot_y, color='green', label='точка пересечения')
+    (ax1, ax2, ax3)[i].legend()
+
 plt.show()
 plt.savefig(dir + '/chart7.svg')

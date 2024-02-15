@@ -1,15 +1,13 @@
 #Дана строка. Подсчитать самую длинную последовательность подряд идущих букв «н». 
 #Преобразовать ее, заменив точками все восклицательные знаки.
 
-import random
 from random import randint
-import string
 
 print("1 задача")
 def d1(s):
     n = 0
     m = 0
-    for i in range((len)(s)-1):
+    for i in range(len(s)-1):
         if (s[i] == "н") and (s[i+1] == "н"):
             n+=1
         else:
